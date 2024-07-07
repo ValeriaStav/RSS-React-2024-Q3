@@ -29,13 +29,12 @@ class SearchBar extends Component<{ onSearch: (searchInput: string) => void }> {
 
   render() {
     return (
-      <div>
+      <div className="SearchBar">
         <input
           type="text"
           name="searchInput"
           value={this.state.searchInput}
           onChange={this.handleChange}
-          placeholder="Enter search query"
         />
         <button onClick={this.handleSearch}>Search</button>
       </div>

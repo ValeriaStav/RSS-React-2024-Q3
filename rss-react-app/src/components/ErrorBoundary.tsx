@@ -29,9 +29,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ padding: '20px', border: '1px solid red' }}>
-          <h1>Something went wrong.</h1>
-          <p>We apologize for the inconvenience.</p>
+        <div className="error">
+          <h2>Something went wrong😔</h2>
+          <p>We apologize for the inconvenience</p>
           <button onClick={this.handleReset}>Try again</button>
         </div>
       );

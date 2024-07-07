@@ -13,7 +13,7 @@ class SearchResults extends Component<SearchResultsProps> {
     const { results } = this.props;
 
     return (
-      <div>
+      <div className="SearchResults">
         {results.length === 0 ? (
           <p>No results found.</p>
         ) : (
