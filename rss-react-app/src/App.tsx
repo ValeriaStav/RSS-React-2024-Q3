@@ -2,7 +2,7 @@ import { Component } from 'react';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import ErrorBoundary from './components/ErrorBoundary';
-import './App.css';
+import './css/App.css';
 
 interface Character {
   name: string;
@@ -60,7 +60,6 @@ class App extends Component<object, AppState> {
           searchResults: results,
           isLoading: false,
           searchedOnce: true,
-          showError: false,
         });
       })
       .catch((error) => {
@@ -73,38 +72,13 @@ class App extends Component<object, AppState> {
     this.fetchCharacters(searchInput);
   };
 
-  throwError = () => {
-    if (!this.state.showError) {
-      this.setState({ showError: true });
-
-      throw new Error('This is a test error thrown by user');
-    }
-  };
-
   render() {
-    const { searchResults, isLoading, showError } = this.state;
-
-    if (showError) {
-      return (
-        <div className="App">
-          <div className="error">
-            <h2>Something went wrong😔</h2>
-            <p>We apologize for the inconvenience</p>
-            <button onClick={() => this.setState({ showError: false })}>
-              Try again
-            </button>
-          </div>
-        </div>
-      );
-    }
+    const { searchResults, isLoading } = this.state;
 
     return (
       <ErrorBoundary>
         <div className="App">
-          <div className="searchContainer">
-            <SearchBar onSearch={this.handleSearch} />
-            <button onClick={this.throwError}>Throw Error</button>
-          </div>
+          <SearchBar onSearch={this.handleSearch} />
           {isLoading ? (
             <div className="load">Loading...</div>
           ) : (

@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import '../css/SearchResults.css';
 
 interface Character {
   name: string;
