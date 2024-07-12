@@ -2,11 +2,8 @@ import { Component } from 'react';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import ErrorBoundary from './components/ErrorBoundary';
+import { Character, fetchCharacters } from './services/api';
 import './css/App.css';
-
-interface Character {
-  name: string;
-}
 
 interface AppState {
   searchResults: Character[];
@@ -30,42 +27,20 @@ class App extends Component<object, AppState> {
       : this.fetchCharacters();
   }
 
-  fetchCharacters = (searchInput?: string): void => {
+  fetchCharacters = async (searchInput?: string): Promise<void> => {
     this.setState({ isLoading: true });
 
-    let apiUrl = 'https://stapi.co/api/v1/rest/character/search';
-
-    if (searchInput && searchInput.trim() !== '') {
-      apiUrl += `?name=${encodeURIComponent(searchInput.trim())}`;
-    }
-
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const results = data.characters.map((character: Character) => ({
-          name: character.name,
-        }));
-        this.setState({
-          searchResults: results,
-          isLoading: false,
-          searchedOnce: true,
-        });
-      })
-      .catch((error) => {
-        console.error('Error fetching search results:', error);
-        this.setState({ isLoading: false, showError: true });
+    try {
+      const results = await fetchCharacters(searchInput);
+      this.setState({
+        searchResults: results,
+        isLoading: false,
+        searchedOnce: true,
       });
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      this.setState({ isLoading: false, showError: true });
+    }
   };
 
   handleSearch = (searchInput: string): void => {
