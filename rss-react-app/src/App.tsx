@@ -1,68 +1,52 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import ErrorBoundary from './components/ErrorBoundary';
 import { Character, fetchCharacters } from './services/api';
 import './css/App.css';
 
-interface AppState {
-  searchResults: Character[];
-  isLoading: boolean;
-  searchedOnce: boolean;
-  showError: boolean;
-}
+const App = () => {
+  const [searchResults, setSearchResults] = useState<Character[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchedOnce, setSearchedOnce] = useState(false);
 
-class App extends Component<object, AppState> {
-  state: AppState = {
-    searchResults: [],
-    isLoading: true,
-    searchedOnce: false,
-    showError: false,
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     const savedSearchInput = localStorage.getItem('searchInput');
-    savedSearchInput && !this.state.searchedOnce
-      ? this.fetchCharacters(savedSearchInput)
-      : this.fetchCharacters();
-  }
+    savedSearchInput && !searchedOnce
+      ? fetchCharactersData(savedSearchInput)
+      : fetchCharactersData();
+  }, [searchedOnce]);
 
-  fetchCharacters = async (searchInput?: string): Promise<void> => {
-    this.setState({ isLoading: true });
+  const fetchCharactersData = async (searchInput?: string) => {
+    setIsLoading(true);
 
     try {
       const results = await fetchCharacters(searchInput);
-      this.setState({
-        searchResults: results,
-        isLoading: false,
-        searchedOnce: true,
-      });
+      setSearchResults(results);
+      setIsLoading(false);
+      setSearchedOnce(true);
     } catch (error) {
       console.error('Error fetching search results:', error);
-      this.setState({ isLoading: false, showError: true });
+      setIsLoading(false);
     }
   };
 
-  handleSearch = (searchInput: string): void => {
-    this.fetchCharacters(searchInput);
+  const handleSearch = (searchInput: string) => {
+    fetchCharactersData(searchInput);
   };
 
-  render() {
-    const { searchResults, isLoading } = this.state;
-
-    return (
-      <ErrorBoundary>
-        <div className="App">
-          <SearchBar onSearch={this.handleSearch} />
-          {isLoading ? (
-            <div className="load">Loading...</div>
-          ) : (
-            <SearchResults results={searchResults} />
-          )}
-        </div>
-      </ErrorBoundary>
-    );
-  }
-}
+  return (
+    <ErrorBoundary>
+      <div className="App">
+        <SearchBar onSearch={handleSearch} />
+        {isLoading ? (
+          <div className="load">Loading...</div>
+        ) : (
+          <SearchResults results={searchResults} />
+        )}
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 export default App;

@@ -1,9 +1,6 @@
 import { Component } from 'react';
+import { Character } from '../services/api';
 import '../css/SearchResults.css';
-
-interface Character {
-  name: string;
-}
 
 interface SearchResultsProps {
   results: Character[];
@@ -18,12 +15,12 @@ class SearchResults extends Component<SearchResultsProps> {
         {results.length === 0 ? (
           <p>No results found.</p>
         ) : (
-          <div>
+          <div className="cardsContainer">
             {results.map((result, index) => (
-              <div key={`${result.name}-${index}`}>
-                <p>
-                  {index + 1}. {result.name}
-                </p>
+              <div className="card" key={`${result.name}-${index}`}>
+                <h3>{result.name}</h3>
+                <p>height: {result.height}</p>
+                <p>mass: {result.mass}</p>
               </div>
             ))}
           </div>
