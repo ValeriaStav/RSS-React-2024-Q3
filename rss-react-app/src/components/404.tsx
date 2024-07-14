@@ -1,12 +1,16 @@
+import { useRouteError } from 'react-router-dom';
 import '../css/404.css';
 
-const NotFound = () => {
+const ErrorPage = () => {
+  const error = useRouteError();
+  console.error(error);
+
   return (
-    <div className="NotFound">
+    <div className="error-page">
       <p className="title">404</p>
       <p className="text">Page Not Found</p>
     </div>
   );
 };
 
-export default NotFound;
+export default ErrorPage;
