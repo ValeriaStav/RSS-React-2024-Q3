@@ -8,12 +8,41 @@
 .cardsContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
 .card {
-  width: 10rem;
-  padding: 15px;
+  min-width: 100%;
+  padding: 0 10px;
   border: 1px solid grey;
   border-radius: 5px;
+
+  h3,
+  h4 {
+    margin: 0;
+  }
+
+  &:hover,
+  :focus {
+    cursor: pointer;
+    border-color: blue;
+  }
+}
+
+.selected {
+  background-color: #cce5ff;
+  font-weight: bold;
+  border-color: blue;
+}
+
+.pagination {
+  margin: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  span {
+    margin: 15px;
+  }
 }
