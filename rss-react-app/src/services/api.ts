@@ -1,5 +1,7 @@
 import { Character } from '../components/interfaces';
 
+const homeworldCache: { [url: string]: string } = {};
+
 export const fetchCharacters = async (
   searchInput?: string,
   page: number = 1
@@ -27,11 +29,14 @@ export const fetchCharacters = async (
   if (data.results) {
     const characters: Character[] = await Promise.all(
       data.results.map(async (character: Character) => {
-        const homeworldResponse = await fetch(character.homeworld);
-        if (!homeworldResponse.ok) {
-          throw new Error('Failed to fetch data');
+        if (!homeworldCache[character.homeworld]) {
+          const homeworldResponse = await fetch(character.homeworld);
+          if (!homeworldResponse.ok) {
+            throw new Error('Failed to fetch data');
+          }
+          const homeworldData = await homeworldResponse.json();
+          homeworldCache[character.homeworld] = homeworldData.name;
         }
-        const homeworldData = await homeworldResponse.json();
         return {
           name: character.name,
           height: character.height,
@@ -41,7 +46,7 @@ export const fetchCharacters = async (
           eye_color: character.eye_color,
           birth_year: character.birth_year,
           gender: character.gender,
-          homeworld: homeworldData.name,
+          homeworld: homeworldCache[character.homeworld],
         };
       })
     );

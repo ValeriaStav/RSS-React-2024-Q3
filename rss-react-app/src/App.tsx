@@ -97,6 +97,12 @@ const App = () => {
     navigate(`/?page=${currentPage}`);
   };
 
+  const handleLeftSectionClick = () => {
+    if (selectedCharacter) {
+      handleCloseDetails();
+    }
+  };
+
   return (
     <ErrorBoundary>
       <div className="App">
@@ -105,12 +111,13 @@ const App = () => {
           <div className="load">Loading...</div>
         ) : (
           <div className="content">
-            <div className="left-section">
+            <div className="left-section" onClick={handleLeftSectionClick}>
               <SearchResults
                 results={searchResults}
                 onCharacterSelect={handleCharacterSelect}
                 currentPage={currentPage}
                 onPageChange={handlePageChange}
+                onCardClick={(e) => e.stopPropagation()}
               />
             </div>
             <div className="right-section">

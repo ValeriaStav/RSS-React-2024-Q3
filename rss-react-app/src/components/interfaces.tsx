@@ -21,6 +21,7 @@ export interface SearchResultsProps {
   onCharacterSelect: (character: Character) => void;
   currentPage: number;
   onPageChange: (page: number) => void;
+  onCardClick: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }
 
 export interface DetailedCardProps {

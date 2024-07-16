@@ -42,7 +42,19 @@
   align-items: center;
   gap: 1rem;
 
-  span {
-    margin: 15px;
+  * {
+    margin: 5px;
+  }
+
+  svg {
+    vertical-align: sub;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+
+  &:hover {
+    cursor: not-allowed;
   }
 }
