@@ -34,6 +34,8 @@ const App = () => {
       fetchCharactersData(savedSearchInput, page, details);
     } else if (searchInput) {
       fetchCharactersData(searchInput, page, details);
+    } else {
+      fetchCharactersData('', page, details);
     }
   }, [location.search, searchedOnce, searchInput]);
 
