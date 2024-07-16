@@ -12,46 +12,52 @@ export const fetchCharacters = async (
     apiUrl += `&search=${encodeURIComponent(searchInput.trim())}`;
   }
 
-  const response = await fetch(apiUrl, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  });
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
 
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (data.results) {
-    const characters: Character[] = await Promise.all(
-      data.results.map(async (character: Character) => {
-        if (!homeworldCache[character.homeworld]) {
-          const homeworldResponse = await fetch(character.homeworld);
-          if (!homeworldResponse.ok) {
-            throw new Error('Failed to fetch data');
+    if (data.results) {
+      const characters: Character[] = await Promise.all(
+        data.results.map(async (character: Character) => {
+          if (!homeworldCache[character.homeworld]) {
+            try {
+              const homeworldResponse = await fetch(character.homeworld);
+              if (!homeworldResponse.ok) {
+                throw new Error('Failed to fetch homeworld data');
+              }
+              const homeworldData = await homeworldResponse.json();
+              homeworldCache[character.homeworld] = homeworldData.name;
+            } catch (error) {
+              console.error(
+                `Failed to fetch homeworld for ${character.name}:`,
+                error
+              );
+              homeworldCache[character.homeworld] = 'Unknown';
+            }
           }
-          const homeworldData = await homeworldResponse.json();
-          homeworldCache[character.homeworld] = homeworldData.name;
-        }
-        return {
-          name: character.name,
-          height: character.height,
-          mass: character.mass,
-          hair_color: character.hair_color,
-          skin_color: character.skin_color,
-          eye_color: character.eye_color,
-          birth_year: character.birth_year,
-          gender: character.gender,
-          homeworld: homeworldCache[character.homeworld],
-        };
-      })
-    );
-    return characters;
-  } else {
-    throw new Error('No results found');
+          return {
+            ...character,
+            homeworld: homeworldCache[character.homeworld],
+          };
+        })
+      );
+      return characters;
+    } else {
+      throw new Error('No results found');
+    }
+  } catch (error) {
+    console.error('Error fetching characters:', error);
+    throw error;
   }
 };

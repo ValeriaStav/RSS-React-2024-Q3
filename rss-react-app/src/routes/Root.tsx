@@ -5,18 +5,17 @@ import {
   Outlet,
 } from 'react-router-dom';
 import App from '../App';
-import NotFound from '../components/404';
+import ErrorPage from '../components/404';
 
 const Root = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<App />}>
-          <Outlet />
-          <Outlet />
+          <Route path="*" element={<ErrorPage />} />
         </Route>
-        <Route path="*" element={<NotFound />} />
       </Routes>
+      <Outlet />
     </Router>
   );
 };

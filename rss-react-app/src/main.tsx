@@ -21,6 +21,7 @@ const router = createBrowserRouter([
             onCharacterSelect={() => {}}
             currentPage={0}
             onPageChange={() => {}}
+            onCardClick={() => {}}
           />
         ),
       },
