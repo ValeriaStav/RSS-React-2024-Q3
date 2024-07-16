@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface Character {
   name: string;
   height: string;
@@ -10,9 +12,8 @@ export interface Character {
   homeworld: string;
 }
 
-export interface DetailedCardProps {
-  character: Character | null;
-  onClose: () => void;
+export interface SearchBarProps {
+  onSearch: (searchInput: string) => void;
 }
 
 export interface SearchResultsProps {
@@ -20,4 +21,17 @@ export interface SearchResultsProps {
   onCharacterSelect: (character: Character) => void;
   currentPage: number;
   onPageChange: (page: number) => void;
+}
+
+export interface DetailedCardProps {
+  character: Character | null;
+  onClose: () => void;
+}
+
+export interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+export interface ErrorBoundaryState {
+  hasError: boolean;
 }
