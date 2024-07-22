@@ -11,6 +11,7 @@ import './css/App.css';
 const App = () => {
   const [searchResults, setSearchResults] = useState<Character[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDetailedLoading, setIsDetailedLoading] = useState(false);
   const [searchedOnce, setSearchedOnce] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchInput, setSearchInput] = useState<string | null>(null);
@@ -88,8 +89,13 @@ const App = () => {
   };
 
   const handleCharacterSelect = (character: Character) => {
+    setIsDetailedLoading(true);
     setSelectedCharacter(character);
     navigate(`/?page=${currentPage}&details=${character.name}`);
+
+    setTimeout(() => {
+      setIsDetailedLoading(false);
+    }, 1000);
   };
 
   const handleCloseDetails = () => {
@@ -121,11 +127,15 @@ const App = () => {
               />
             </div>
             <div className="right-section">
-              {selectedCharacter && (
-                <DetailedCard
-                  character={selectedCharacter}
-                  onClose={handleCloseDetails}
-                />
+              {isDetailedLoading ? (
+                <div className="load">Loading...</div>
+              ) : (
+                selectedCharacter && (
+                  <DetailedCard
+                    character={selectedCharacter}
+                    onClose={handleCloseDetails}
+                  />
+                )
               )}
             </div>
           </div>
