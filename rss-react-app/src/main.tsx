@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
-import ErrorPage from './components/404';
+import ErrorPage from './components/ErrorPage';
 import DetailedCard from './components/DetailedCard';
 import SearchResults from './components/SearchResults';
 import './index.css';

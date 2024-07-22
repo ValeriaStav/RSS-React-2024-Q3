@@ -5,7 +5,7 @@ import {
   Outlet,
 } from 'react-router-dom';
 import App from '../App';
-import ErrorPage from '../components/404';
+import ErrorPage from '../components/ErrorPage';
 
 const Root = () => {
   return (
