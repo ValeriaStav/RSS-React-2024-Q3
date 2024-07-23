@@ -22,7 +22,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx lint-staged && npm run lint && npm run format:fix"
+      "pre-commit": "npx lint-staged && npm run lint && npm run format:fix",
+      "pre-push": "npm run test"
     }
   },
   "dependencies": {
