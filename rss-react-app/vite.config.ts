@@ -1,11 +1,10 @@
-/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import vitestConfig from './vitest.config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // base: '/RSS-React-2024-Q3/rss-react-app/',
   test: {
     globals: true,
     environment: 'jsdom',
@@ -14,4 +13,5 @@ export default defineConfig({
       reporter: ['text', 'html'],
     },
   },
+  ...vitestConfig,
 });
