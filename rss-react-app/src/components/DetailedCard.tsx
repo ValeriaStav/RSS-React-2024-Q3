@@ -1,6 +1,6 @@
 import React from 'react';
-import { DetailedCardProps } from './interfaces';
-import '../css/DetailedCard.css';
+import { DetailedCardProps } from '../types/interfaces';
+import '../styles/DetailedCard.css';
 
 const DetailedCard = ({ character, onClose }: DetailedCardProps) => {
   if (!character) {

@@ -1,4 +1,4 @@
-import { Character } from '../components/interfaces';
+import { Character } from '../types/interfaces';
 
 const homeworldCache: { [url: string]: string } = {};
 

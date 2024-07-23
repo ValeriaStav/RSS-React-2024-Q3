@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../css/SearchBar.css';
-import useLocalStorage from './useLocalStorage';
+import useLocalStorage from '../hooks/useLocalStorage';
+import '../styles/SearchBar.css';
 
 const SearchBar = ({
   onSearch,

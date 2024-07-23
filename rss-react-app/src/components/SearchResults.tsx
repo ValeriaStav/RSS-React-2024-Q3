@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Character, SearchResultsProps } from './interfaces';
-import '../css/SearchResults.css';
+import { Character, SearchResultsProps } from '../types/interfaces';
+import '../styles/SearchResults.css';
 
 const SearchResults = ({
   results,
@@ -66,6 +66,7 @@ const SearchResults = ({
           role="button"
           aria-disabled={currentPage === 1 ? 'true' : 'false'}
           className={currentPage === 1 ? 'disabled' : ''}
+          data-testid="prev-page-button"
         >
           <svg
             viewBox="64 64 896 896"
@@ -120,6 +121,7 @@ const SearchResults = ({
           role="button"
           aria-disabled={results.length < 10 ? 'true' : 'false'}
           className={results.length < 10 ? 'disabled' : ''}
+          data-testid="next-page-button"
         >
           <svg
             viewBox="64 64 896 896"

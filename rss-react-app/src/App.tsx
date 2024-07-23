@@ -1,12 +1,12 @@
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import ErrorBoundary from './components/ErrorBoundary';
 import DetailedCard from './components/DetailedCard';
-import { Character } from './components/interfaces';
+import { Character } from './types/interfaces';
 import { fetchCharacters } from './services/api';
-import './css/App.css';
+import './styles/App.css';
 
 const App = () => {
   const [searchResults, setSearchResults] = useState<Character[]>([]);
