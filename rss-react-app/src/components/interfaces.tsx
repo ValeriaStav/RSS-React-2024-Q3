@@ -25,7 +25,7 @@ export interface SearchResultsProps {
 }
 
 export interface DetailedCardProps {
-  character: Character | null;
+  character?: Character | null;
   onClose: () => void;
 }
 

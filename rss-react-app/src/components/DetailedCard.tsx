@@ -1,3 +1,4 @@
+import React from 'react';
 import { DetailedCardProps } from './interfaces';
 import '../css/DetailedCard.css';
 
