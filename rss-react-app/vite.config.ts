@@ -5,6 +5,10 @@ import vitestConfig from './vitest.config';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // base: '/RSS-React-2024-Q3/rss-react-app/',
+  build: {
+    outDir: 'dist',
+  },
   test: {
     globals: true,
     environment: 'jsdom',
