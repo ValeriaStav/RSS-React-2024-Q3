@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
@@ -79,19 +79,21 @@ const App = () => {
     localStorage.setItem('searchInput', searchInput);
     setSearchInput(searchInput);
     fetchCharactersData(searchInput, 1);
-    navigate(`/?page=1`);
+    navigate(`/RSS-React-2024-Q3/?page=1`);
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     fetchCharactersData(searchInput || undefined, page);
-    navigate(`/?page=${page}`);
+    navigate(`/RSS-React-2024-Q3/?page=${page}`);
   };
 
   const handleCharacterSelect = (character: Character) => {
     setIsDetailedLoading(true);
     setSelectedCharacter(character);
-    navigate(`/?page=${currentPage}&details=${character.name}`);
+    navigate(
+      `/RSS-React-2024-Q3/?page=${currentPage}&details=${character.name}`
+    );
 
     setTimeout(() => {
       setIsDetailedLoading(false);
@@ -100,7 +102,7 @@ const App = () => {
 
   const handleCloseDetails = () => {
     setSelectedCharacter(null);
-    navigate(`/?page=${currentPage}`);
+    navigate(`/RSS-React-2024-Q3/?page=${currentPage}`);
   };
 
   const handleLeftSectionClick = () => {

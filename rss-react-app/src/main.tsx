@@ -9,12 +9,12 @@ import './index.css';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/RSS-React-2024-Q3/',
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '?page/:page',
+        path: '/RSS-React-2024-Q3/?page/:page',
         element: (
           <SearchResults
             results={[]}
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: `?page=/:page/details/:characterName`,
+        path: `/RSS-React-2024-Q3/?page=/:page/details/:characterName`,
         element: <DetailedCard character={null} onClose={() => {}} />,
       },
     ],

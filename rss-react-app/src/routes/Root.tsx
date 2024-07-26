@@ -4,7 +4,7 @@ import ErrorPage from '../components/ErrorPage';
 
 const Root = () => {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="*" element={<ErrorPage />} />
