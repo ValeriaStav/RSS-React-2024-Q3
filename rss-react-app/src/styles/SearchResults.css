@@ -1,0 +1,60 @@
+.SearchResults,
+.load {
+  margin-top: 4rem;
+  padding: 1rem 2rem;
+  height: 100vh;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.card {
+  min-width: 100%;
+  padding: 0 10px;
+  border: 1px solid grey;
+  border-radius: 5px;
+
+  h3,
+  h4 {
+    margin: 0;
+  }
+
+  &:hover,
+  :focus {
+    cursor: pointer;
+    border-color: blue;
+  }
+}
+
+.selected {
+  background-color: #cce5ff;
+  font-weight: bold;
+  border-color: blue;
+}
+
+.pagination {
+  margin: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  * {
+    margin: 5px;
+  }
+
+  svg {
+    vertical-align: sub;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}

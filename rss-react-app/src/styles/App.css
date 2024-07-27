@@ -1,0 +1,25 @@
+#root {
+  width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.content {
+  display: flex;
+}
+
+.left-section {
+  width: 40%;
+}
+
+.right-section {
+  width: 60%;
+  border-left: 1px solid #ccc;
+  padding-left: 20px;
+}
