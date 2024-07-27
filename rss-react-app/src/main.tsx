@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 import App from './App';
 import ErrorPage from './components/ErrorPage';
 import DetailedCard from './components/DetailedCard';
@@ -14,7 +16,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/RSS-React-2024-Q3/?page/:page',
+        path: 'page/:page',
         element: (
           <SearchResults
             results={[]}
@@ -26,7 +28,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: `/RSS-React-2024-Q3/?page=/:page/details/:characterName`,
+        path: `page=/:page/details/:characterName`,
         element: <DetailedCard character={null} onClose={() => {}} />,
       },
     ],
@@ -35,6 +37,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

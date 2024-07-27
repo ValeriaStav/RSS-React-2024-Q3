@@ -1,16 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import ErrorBoundary from './components/ErrorBoundary';
 import DetailedCard from './components/DetailedCard';
 import { Character } from './types/interfaces';
-import { fetchCharacters } from './services/api';
+import { useFetchCharactersQuery } from './services/api';
 import './styles/App.css';
 
 const App = () => {
   const [searchResults, setSearchResults] = useState<Character[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isDetailedLoading, setIsDetailedLoading] = useState(false);
   const [searchedOnce, setSearchedOnce] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,71 +19,47 @@ const App = () => {
   );
   const location = useLocation();
   const navigate = useNavigate();
-  const cache = useRef<{ [key: string]: Character[] }>({});
+
+  const params = new URLSearchParams(location.search);
+  const savedSearchInput = localStorage.getItem('searchInput') || '';
+  const page = parseInt(params.get('page') || '1', 10);
+  const details = params.get('details');
+
+  const { data: results, isLoading } = useFetchCharactersQuery({
+    page,
+    search: searchInput || undefined,
+  });
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const savedSearchInput = localStorage.getItem('searchInput');
-    const page = parseInt(params.get('page') || '1', 10);
-    const details = params.get('details');
-
     setCurrentPage(page);
 
     if (savedSearchInput && !searchedOnce) {
       setSearchInput(savedSearchInput);
-      fetchCharactersData(savedSearchInput, page, details);
-    } else if (searchInput) {
-      fetchCharactersData(searchInput, page, details);
-    } else {
-      fetchCharactersData('', page, details);
+      setSearchedOnce(true);
+    } else if (!searchInput) {
+      setSearchInput('');
     }
   }, [location.search, searchedOnce, searchInput]);
 
-  const fetchCharactersData = async (
-    searchInput?: string,
-    page: number = 1,
-    details?: string | null
-  ) => {
-    const cacheKey = `${searchInput || 'all'}_${page}`;
-    if (cache.current[cacheKey]) {
-      setSearchResults(cache.current[cacheKey]);
-      if (details) {
-        const character = cache.current[cacheKey].find(
-          (c) => c.name === details
-        );
-        setSelectedCharacter(character || null);
-      }
-      setIsLoading(false);
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const results = await fetchCharacters(searchInput, page);
-      cache.current[cacheKey] = results;
+  useEffect(() => {
+    if (results) {
       setSearchResults(results);
       if (details) {
         const character = results.find((c) => c.name === details);
         setSelectedCharacter(character || null);
       }
-      setIsLoading(false);
-      setSearchedOnce(true);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-      setIsLoading(false);
     }
-  };
+  }, [results, details]);
 
   const handleSearch = (searchInput: string) => {
     localStorage.setItem('searchInput', searchInput);
     setSearchInput(searchInput);
-    fetchCharactersData(searchInput, 1);
+    setSearchedOnce(true);
     navigate(`/RSS-React-2024-Q3/?page=1`);
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    fetchCharactersData(searchInput || undefined, page);
     navigate(`/RSS-React-2024-Q3/?page=${page}`);
   };
 
