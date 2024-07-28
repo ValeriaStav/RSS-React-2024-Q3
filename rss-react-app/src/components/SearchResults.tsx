@@ -127,31 +127,29 @@ const SearchResults = ({
       ) : (
         <div className="cardsContainer">
           {results.map((result, index) => (
-            <div
-              className={`card ${selectedCharacter === result ? 'selected' : ''}`}
+            <Link
               key={`${result.name}-${index}`}
+              className={`card ${selectedCharacter === result ? 'selected' : ''}`}
+              to={`?page=${currentPage}/details/${result.name}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCharacterClick(result, e);
+                if (onCardClick) {
+                  onCardClick(e);
+                }
+              }}
             >
-              <Link
-                key={`${result.name}-${index}`}
-                to={`?page=${currentPage}/details/${result.name}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCharacterClick(result, e);
-                  if (onCardClick) {
-                    onCardClick(e);
-                  }
-                }}
-              >
+              <div>
                 <h3>{result.name}</h3>
                 <h4>Planet: {result.homeworld}</h4>
-              </Link>
+              </div>
               <input
                 type="checkbox"
                 checked={isSelected(result)}
                 onChange={() => handleCheckboxChange(result)}
                 onClick={(e) => e.stopPropagation()}
               />
-            </div>
+            </Link>
           ))}
         </div>
       )}
