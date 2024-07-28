@@ -1,6 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {
+  selectItem,
+  unselectItem,
+  unselectAll,
+  setCurrentPageItems,
+} from '../reducers/selectionSlice';
 import { Character, SearchResultsProps } from '../types/interfaces';
+import useLocalStorage from '../hooks/useLocalStorage';
 import '../styles/SearchResults.css';
 
 const SearchResults = ({
@@ -13,12 +21,59 @@ const SearchResults = ({
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { storedValue: selectedItems, setValue: setSelectedItems } =
+    useLocalStorage<Character[]>('selectedItems', []);
+  const linkRef = useRef<HTMLAnchorElement | null>(null);
 
-  const handleCharacterClick = (character: Character) => {
+  useEffect(() => {
+    dispatch(setCurrentPageItems(results));
+  }, [results, dispatch]);
+
+  useEffect(() => {
+    selectedItems.forEach((item) => {
+      dispatch(selectItem(item));
+    });
+  }, [dispatch, selectedItems]);
+
+  const handleCharacterClick = (
+    character: Character,
+    event: React.MouseEvent
+  ) => {
+    event.preventDefault();
     setSelectedCharacter(character);
     onCharacterSelect(character);
     navigate(`?page=${currentPage}&details=${character.name}`);
+    if (isSelected(character)) {
+      const newSelectedItems = selectedItems.filter(
+        (item) => item.name !== character.name
+      );
+      dispatch(unselectItem(character));
+      setSelectedItems(newSelectedItems);
+    } else {
+      const newSelectedItems = [...selectedItems, character];
+      dispatch(selectItem(character));
+      setSelectedItems(newSelectedItems);
+    }
+  };
+
+  const handleCheckboxChange = (character: Character) => {
+    if (isSelected(character)) {
+      const newSelectedItems = selectedItems.filter(
+        (item) => item.name !== character.name
+      );
+      dispatch(unselectItem(character));
+      setSelectedItems(newSelectedItems);
+    } else {
+      const newSelectedItems = [...selectedItems, character];
+      dispatch(selectItem(character));
+      setSelectedItems(newSelectedItems);
+    }
+  };
+
+  const isSelected = (character: Character) => {
+    return selectedItems.some((item) => item.name === character.name);
   };
 
   const handlePageChange = (
@@ -30,28 +85,73 @@ const SearchResults = ({
     navigate(`?page=${page}`);
   };
 
+  const handleClearSelection = () => {
+    dispatch(unselectAll());
+    setSelectedItems([]);
+  };
+
+  const handleExportCSV = () => {
+    const csvContent = selectedItems
+      .map(
+        (item) =>
+          `name: ${item.name}, planet: ${item.homeworld}, birth: ${item.birth_year}, gender: ${item.gender}`
+      )
+      .join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const filename = `${selectedItems.length}_selected_items.csv`;
+
+    if (linkRef.current) {
+      linkRef.current.href = URL.createObjectURL(blob);
+      linkRef.current.download = filename;
+      linkRef.current.click();
+    }
+  };
+
   return (
     <div className="SearchResults">
+      <div className="selection-info">
+        <span>Selected items: {selectedItems.length}</span>
+        {selectedItems.length > 0 && (
+          <div className="selection-popup">
+            <span>Selected {selectedItems.length} items</span>
+            <button onClick={handleClearSelection}>Clear all</button>
+            <button onClick={handleExportCSV}>Download</button>
+            <a ref={linkRef} style={{ display: 'none' }}>
+              Download
+            </a>
+          </div>
+        )}
+      </div>
       {results.length === 0 ? (
         <p>No results found.</p>
       ) : (
         <div className="cardsContainer">
           {results.map((result, index) => (
-            <Link
-              key={`${result.name}-${index}`}
-              to={`?page=${currentPage}/details/${result.name}`}
+            <div
               className={`card ${selectedCharacter === result ? 'selected' : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleCharacterClick(result);
-                if (onCardClick) {
-                  onCardClick(e);
-                }
-              }}
+              key={`${result.name}-${index}`}
             >
-              <h3>{result.name}</h3>
-              <h4>Planet: {result.homeworld}</h4>
-            </Link>
+              <Link
+                key={`${result.name}-${index}`}
+                to={`?page=${currentPage}/details/${result.name}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCharacterClick(result, e);
+                  if (onCardClick) {
+                    onCardClick(e);
+                  }
+                }}
+              >
+                <h3>{result.name}</h3>
+                <h4>Planet: {result.homeworld}</h4>
+              </Link>
+              <input
+                type="checkbox"
+                checked={isSelected(result)}
+                onChange={() => handleCheckboxChange(result)}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
           ))}
         </div>
       )}

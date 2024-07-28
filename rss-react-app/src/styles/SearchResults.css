@@ -1,6 +1,6 @@
 .SearchResults,
 .load {
-  margin-top: 4rem;
+  margin-top: 2.5rem;
   padding: 1rem 2rem;
   height: 100vh;
 }
@@ -8,12 +8,14 @@
 .cardsContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
+  gap: 0.7rem;
 }
 
 .card {
   min-width: 100%;
   padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
   border: 1px solid grey;
   border-radius: 5px;
 
@@ -56,5 +58,40 @@
 
   &:hover {
     cursor: not-allowed;
+  }
+}
+
+.selection-info {
+  margin-bottom: 0.7rem;
+}
+
+.selection-popup {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  border: 1px solid var(--button-border);
+  background-color: var(--popup-background);
+  color: var(--popup-text);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  z-index: 1000;
+}
+
+.selection-popup span {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.selection-popup button {
+  width: 6.7rem;
+  color: var(--popup-text);
+  background: var(--button-background);
+  color: var(--button-text);
+
+  &:nth-last-child(2) {
+    margin-left: 0.5rem;
   }
 }
