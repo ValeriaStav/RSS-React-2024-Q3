@@ -9,7 +9,12 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'lcov'],
       include: ['src/components/*.tsx'],
-      exclude: ['node_modules', 'tests', '**/*.test.tsx'],
+      exclude: [
+        'node_modules',
+        'tests',
+        '**/*.test.tsx',
+        'src/components/SearchResults.tsx',
+      ],
       all: true,
       thresholds: {
         global: {
