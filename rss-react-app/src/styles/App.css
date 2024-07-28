@@ -23,3 +23,44 @@
   border-left: 1px solid #ccc;
   padding-left: 20px;
 }
+
+.App {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light-theme {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --border-color: #ccc;
+  --button-text: #000000;
+}
+
+.dark-theme {
+  --background-color: #222020;
+  --text-color: #ffffff;
+  --border-color: #444;
+  --button-text: #ffffff;
+}
+
+.App {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.SearchBar {
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.searchBtn,
+.themeToggle,
+.errorBtn,
+.closeBtn {
+  background: var(--button-background);
+  color: var(--button-text);
+}
+
+.themeToggle:focus,
+.errorBtn:focus {
+  outline: none;
+}

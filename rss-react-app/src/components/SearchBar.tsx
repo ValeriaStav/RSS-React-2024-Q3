@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { FaSun, FaMoon } from 'react-icons/fa';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { useTheme } from '../hooks/useTheme';
 import '../styles/SearchBar.css';
 
 const SearchBar = ({
@@ -8,6 +10,7 @@ const SearchBar = ({
   onSearch: (searchInput: string, showError: boolean) => void;
 }) => {
   const { storedValue, setValue } = useLocalStorage('searchInput', '');
+  const { theme, toggleTheme } = useTheme();
 
   const [searchInput, setSearchInput] = useState<string>(storedValue);
   const [showError, setShowError] = useState<boolean>(false);
@@ -40,10 +43,17 @@ const SearchBar = ({
         value={searchInput}
         onChange={handleChange}
       />
-      <button onClick={handleSearch}>Search</button>
-      <button className="errorBtn" onClick={throwError}>
-        Throw Error
+      <button className="searchBtn" onClick={handleSearch}>
+        Search
       </button>
+      <div className="button-container">
+        <button className="themeToggle" onClick={toggleTheme}>
+          {theme === 'light' ? <FaSun /> : <FaMoon />}
+        </button>
+        <button className="errorBtn" onClick={throwError}>
+          Throw Error
+        </button>
+      </div>
     </div>
   );
 };

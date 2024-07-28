@@ -39,6 +39,7 @@ h1 {
 input {
   margin-right: 1rem;
   padding: 0.4em;
+  border-radius: 5px;
   font-size: 1em;
 }
 

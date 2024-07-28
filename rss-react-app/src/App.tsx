@@ -6,9 +6,11 @@ import ErrorBoundary from './components/ErrorBoundary';
 import DetailedCard from './components/DetailedCard';
 import { Character } from './types/interfaces';
 import { useFetchCharactersQuery } from './services/api';
+import { useTheme } from './hooks/useTheme';
 import './styles/App.css';
 
 const App = () => {
+  const { theme, toggleTheme } = useTheme();
   const [searchResults, setSearchResults] = useState<Character[]>([]);
   const [isDetailedLoading, setIsDetailedLoading] = useState(false);
   const [searchedOnce, setSearchedOnce] = useState(false);
@@ -88,8 +90,13 @@ const App = () => {
 
   return (
     <ErrorBoundary>
-      <div className="App">
+      <div
+        className={`App ${theme === 'light' ? 'light-theme' : 'dark-theme'}`}
+      >
         <SearchBar onSearch={handleSearch} />
+        <button onClick={toggleTheme}>
+          Switch to {theme === 'light' ? 'dark' : 'light'} theme
+        </button>
         {isLoading ? (
           <div className="load">Loading...</div>
         ) : (
