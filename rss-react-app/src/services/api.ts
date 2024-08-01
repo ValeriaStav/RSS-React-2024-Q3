@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Character } from '../types/interfaces';
-
-const homeworldCache: { [url: string]: string } = {};
+import { transformResponse } from './transformResponse';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -18,33 +17,7 @@ export const api = createApi({
         }
         return url;
       },
-      transformResponse: async (response: { results: Character[] }) => {
-        const characters: Character[] = await Promise.all(
-          response.results.map(async (character: Character) => {
-            if (!homeworldCache[character.homeworld]) {
-              try {
-                const homeworldResponse = await fetch(character.homeworld);
-                if (!homeworldResponse.ok) {
-                  throw new Error('Failed to fetch homeworld data');
-                }
-                const homeworldData = await homeworldResponse.json();
-                homeworldCache[character.homeworld] = homeworldData.name;
-              } catch (error) {
-                console.error(
-                  `Failed to fetch homeworld for ${character.name}:`,
-                  error
-                );
-                homeworldCache[character.homeworld] = 'Unknown';
-              }
-            }
-            return {
-              ...character,
-              homeworld: homeworldCache[character.homeworld],
-            };
-          })
-        );
-        return characters;
-      },
+      transformResponse,
     }),
   }),
 });

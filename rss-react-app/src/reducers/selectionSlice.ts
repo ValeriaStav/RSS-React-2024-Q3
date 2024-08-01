@@ -17,22 +17,22 @@ const selectionSlice = createSlice({
   name: 'selection',
   initialState,
   reducers: {
-    setCurrentPageItems(state, action: PayloadAction<Character[]>) {
+    setCurrentPageItems: (state, action: PayloadAction<Character[]>) => {
       state.currentPageItems = action.payload;
     },
-    selectItem(state, action: PayloadAction<Character>) {
+    selectItem: (state, action: PayloadAction<Character>) => {
       state.selectedItem = action.payload;
       state.selectedItems.push(action.payload);
     },
-    unselectItem(state, action: PayloadAction<Character>) {
+    unselectItem: (state, action: PayloadAction<Character>) => {
       state.selectedItems = state.selectedItems.filter(
-        (item) => item !== action.payload
+        (item) => item.name !== action.payload.name
       );
-      if (state.selectedItem === action.payload) {
+      if (state.selectedItem?.name === action.payload.name) {
         state.selectedItem = null;
       }
     },
-    unselectAll(state) {
+    unselectAll: (state) => {
       state.selectedItems = [];
       state.selectedItem = null;
     },

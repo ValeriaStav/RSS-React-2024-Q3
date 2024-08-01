@@ -1,5 +1,4 @@
-import React from 'react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import DetailedCard from '../components/DetailedCard';
@@ -17,13 +16,13 @@ describe('DetailedCard component', () => {
     homeworld: 'Tatooine',
   };
 
-  it('renders Loading... when no character is provided', () => {
+  test('renders Loading... when no character is provided', () => {
     render(<DetailedCard onClose={() => {}} />);
     const loadingElement = screen.getByText(/Loading.../i);
     expect(loadingElement).toBeInTheDocument();
   });
 
-  it('renders character details correctly', () => {
+  test('renders character details correctly', () => {
     render(<DetailedCard character={mockCharacter} onClose={() => {}} />);
     expect(screen.getByText(mockCharacter.name)).toBeInTheDocument();
     expect(
@@ -47,7 +46,7 @@ describe('DetailedCard component', () => {
     ).toBeInTheDocument();
   });
 
-  it('calls onClose function when Close button is clicked', () => {
+  test('calls onClose function when Close button is clicked', () => {
     const onCloseMock = vi.fn();
     render(<DetailedCard character={mockCharacter} onClose={onCloseMock} />);
     const closeButton = screen.getByRole('button', { name: /Close/i });

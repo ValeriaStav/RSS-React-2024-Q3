@@ -1,10 +1,9 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, vi } from 'vitest';
 import SearchBar from '../components/SearchBar';
 
 describe('SearchBar Component', () => {
-  it('renders without crashing', () => {
+  test('renders without crashing', () => {
     render(<SearchBar onSearch={vi.fn()} />);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
@@ -13,14 +12,14 @@ describe('SearchBar Component', () => {
     ).toBeInTheDocument();
   });
 
-  it('updates input value on change', () => {
+  test('updates input value on change', () => {
     render(<SearchBar onSearch={vi.fn()} />);
     const input = screen.getByRole('textbox');
     fireEvent.change(input, { target: { value: 'test' } });
     expect(input).toHaveValue('test');
   });
 
-  it('calls onSearch with input value and showError on search button click', () => {
+  test('calls onSearch with input value and showError on search button click', () => {
     const onSearchMock = vi.fn();
     render(<SearchBar onSearch={onSearchMock} />);
     const input = screen.getByRole('textbox');
@@ -30,7 +29,7 @@ describe('SearchBar Component', () => {
     expect(onSearchMock).toHaveBeenCalledWith('test search', false);
   });
 
-  it('throws an error when "Throw Error" button is clicked', () => {
+  test('throws an error when "Throw Error" button is clicked', () => {
     const consoleErrorMock = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
