@@ -1,0 +1,17 @@
+:root {
+  --background-color-light: #ffffff;
+  --text-color-light: #000000;
+  --border-color-light: #ccc;
+  --button-text-light: #000000;
+  --popup-background-light: #ffffff;
+  --popup-text-light: #000000;
+
+  --background-color-dark: #222020;
+  --text-color-dark: #ffffff;
+  --border-color-dark: #444;
+  --button-text-dark: #ffffff;
+  --popup-background-dark: #333333;
+  --popup-text-dark: #ffffff;
+
+  --button-border: #165b9a;
+}

@@ -1,0 +1,74 @@
+@import './variables.css';
+
+#root {
+  width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.content {
+  display: flex;
+}
+
+.left-section {
+  width: 40%;
+}
+
+.right-section {
+  width: 60%;
+  border-left: 1px solid #ccc;
+  padding-left: 20px;
+}
+
+.App {
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.light-theme {
+  --background-color: var(--background-color-light);
+  --text-color: var(--text-color-light);
+  --border-color: var(--border-color-light);
+  --button-text: var(--button-text-light);
+  --popup-background: var(--popup-background-light);
+  --popup-text: var(--popup-text-light);
+}
+
+.dark-theme {
+  --background-color: var(--background-color-dark);
+  --text-color: var(--text-color-dark);
+  --border-color: var(--border-color-dark);
+  --button-text: var(--button-text-dark);
+  --popup-background: var(--popup-background-dark);
+  --popup-text: var(--popup-text-dark);
+}
+
+.App {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.SearchBar {
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.searchBtn,
+.themeToggle,
+.errorBtn,
+.closeBtn {
+  background: var(--button-background);
+  color: var(--button-text);
+}
+
+.themeToggle:focus,
+.errorBtn:focus {
+  outline: none;
+}
