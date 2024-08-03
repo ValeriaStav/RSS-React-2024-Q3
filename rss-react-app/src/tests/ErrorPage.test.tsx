@@ -9,6 +9,16 @@ vi.mock('react-router-dom', () => ({
 }));
 
 describe('ErrorPage component', () => {
+  let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
   test('renders with 404 title and Page Not Found text', () => {
     (useRouteError as jest.Mock).mockReturnValue(new Error('Test error'));
 

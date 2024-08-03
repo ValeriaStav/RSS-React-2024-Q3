@@ -16,6 +16,9 @@ const homeworldData = { name: 'Tatooine' };
 
 vi.mock('../services/api', () => ({
   api: {
+    reducerPath: 'api',
+    reducer: (state = {}) => state,
+    middleware: [],
     endpoints: {
       fetchCharacters: {
         useQuery: vi.fn().mockImplementation(() => {
@@ -27,8 +30,6 @@ vi.mock('../services/api', () => ({
         }),
       },
     },
-    middleware: [],
-    reducerPath: 'api',
   },
 }));
 

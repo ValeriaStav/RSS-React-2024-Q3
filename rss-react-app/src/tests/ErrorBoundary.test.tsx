@@ -1,10 +1,21 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 import ErrorBoundary from '../components/ErrorBoundary';
 
-describe('ErrorBoundary component', () => {
-  test('renders child component when there is no error', () => {
-    const Child = () => <div>Child component</div>;
+describe('ErrorBoundary Component', () => {
+  let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
+  test('renders child component if no error', () => {
+    const Child = () => <div>Child Component</div>;
 
     render(
       <ErrorBoundary>
@@ -12,7 +23,7 @@ describe('ErrorBoundary component', () => {
       </ErrorBoundary>
     );
 
-    expect(screen.getByText('Child component')).toBeInTheDocument();
+    expect(screen.getByText('Child Component')).toBeInTheDocument();
   });
 
   test('catches error and displays fallback UI', () => {
@@ -32,11 +43,11 @@ describe('ErrorBoundary component', () => {
     ).toBeInTheDocument();
   });
 
-  test('resets error state when "Try again" button is clicked', () => {
+  test('resets error state on retry button click', () => {
     const ErrorComponent = () => {
       throw new Error('Test error');
     };
-    const Child = () => <div>Child component</div>;
+    const Child = () => <div>Child Component</div>;
 
     const { rerender } = render(
       <ErrorBoundary>
@@ -57,6 +68,6 @@ describe('ErrorBoundary component', () => {
     expect(
       screen.queryByText('Something went wrong😔')
     ).not.toBeInTheDocument();
-    expect(screen.getByText('Child component')).toBeInTheDocument();
+    expect(screen.getByText('Child Component')).toBeInTheDocument();
   });
 });

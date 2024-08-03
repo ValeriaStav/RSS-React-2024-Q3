@@ -30,6 +30,16 @@ beforeEach(() => {
 });
 
 describe('transformResponse Component', () => {
+  let originalError: (...data: unknown[]) => void;
+  beforeAll(() => {
+    originalError = console.error;
+    console.error = vi.fn() as (...data: unknown[]) => void;
+  });
+
+  afterAll(() => {
+    console.error = originalError;
+  });
+
   test('correctly transforms character data with successful homeworld fetch', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -74,6 +84,33 @@ describe('transformResponse Component', () => {
       {
         ...character,
         homeworld: 'Unknown',
+      },
+    ]);
+  });
+
+  test('caches homeworld data', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => homeworldData,
+    });
+
+    const response = { results: [character] };
+    await transformResponse(response);
+
+    expect(homeworldCache[character.homeworld]).toBe('Tatooine');
+  });
+
+  test('uses cached homeworld data', async () => {
+    homeworldCache[character.homeworld] = 'Tatooine';
+
+    const response = { results: [character] };
+    const transformedCharacters = await transformResponse(response);
+
+    expect(mockFetch).not.toHaveBeenCalled();
+    expect(transformedCharacters).toEqual([
+      {
+        ...character,
+        homeworld: 'Tatooine',
       },
     ]);
   });
