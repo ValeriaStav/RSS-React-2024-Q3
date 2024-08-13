@@ -1,0 +1,47 @@
+.SearchBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100vw;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  z-index: 1000;
+}
+
+.button-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.themeToggle {
+  margin-bottom: -5px;
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.themeToggle:focus {
+  outline: none;
+}
+
+.errorBtn {
+  margin-left: auto;
+}
+
+.error {
+  margin: 2rem;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid red;
+  border-radius: 5px;
+  line-height: 2rem;
+}

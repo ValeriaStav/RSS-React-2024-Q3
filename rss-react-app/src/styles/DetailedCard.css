@@ -1,0 +1,14 @@
+.DetailedCard {
+  margin-top: 4rem;
+  padding: 1rem 2rem;
+  height: 100vh;
+}
+
+.DetailedCard .load {
+  text-align: center;
+}
+
+.DetailedCard button {
+  display: block;
+  margin-bottom: 10px;
+}
